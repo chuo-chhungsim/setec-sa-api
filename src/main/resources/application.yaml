@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: course-management-api
+  jackson:
+    time-zone: Asia/Phnom_Penh
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+#    url: jdbc:postgresql://ep-icy-bonus-a1ws48hw-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+#    username: neondb_owner
+#    password: npg_nGsTdOY7ZV8q
+    url: jdbc:postgresql://localhost:5432/mydatabase
+    username: postgres
+    password: 123
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
