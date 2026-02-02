@@ -38,12 +38,12 @@ public class CategoryServiceImpl implements CategoryService {
         if (request == null){
             throw new BadRequestException("Request cannot be null");
         }
-        if(categoryRepository.existsByCategoryName(request.getName())){
+        if(categoryRepository.existsByCategoryName(request.getCategoryName())){
             throw new BadRequestException("This Category Name already exists");
         }
 
         Category category = Category.builder()
-                .categoryName(request.getName())
+                .categoryName(request.getCategoryName())
                 .build();
         categoryRepository.save(category);
         return category.toCategoryDTO();
@@ -57,12 +57,12 @@ public class CategoryServiceImpl implements CategoryService {
         if (request == null){
             throw new BadRequestException("Request cannot be null");
         }
-        if(categoryRepository.existsByCategoryName(request.getName())){
+        if(categoryRepository.existsByCategoryName(request.getCategoryName())){
             throw new BadRequestException("This Category Name already exists");
         }
         roleValidation.validateAdmin();
 
-        category.setCategoryName(request.getName());
+        category.setCategoryName(request.getCategoryName());
         categoryRepository.save(category);
         return category.toCategoryDTO();
     }

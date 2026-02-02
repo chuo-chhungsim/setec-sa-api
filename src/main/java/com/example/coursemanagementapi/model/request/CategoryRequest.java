@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CategoryRequest {
     @NotBlank(message = "Name cannot be blank")
-    private String name;
+    private String categoryName;
 
-    public String getName() {
-        return name == null ? null : name.trim();
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName ==  null ? null : categoryName.trim();
     }
 }

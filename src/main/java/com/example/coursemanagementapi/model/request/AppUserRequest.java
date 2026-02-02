@@ -32,4 +32,14 @@ public class AppUserRequest {
     private Role roles;
 
     private Map<String, Object> userInfo;
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName == null ? null : fullName.trim();
+    }
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
 }
