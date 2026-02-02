@@ -1,5 +1,6 @@
 package com.example.coursemanagementapi.model.dto;
 
+import com.example.coursemanagementapi.model.enums.Role;
 import com.example.coursemanagementapi.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -24,7 +25,7 @@ public class AppUserDTO {
     private String fullName;
     private Status status;
     private String email;
-    private List<String> role;
+    private List<Role> role;
 
     private Map<String, Object> userInfo;
 

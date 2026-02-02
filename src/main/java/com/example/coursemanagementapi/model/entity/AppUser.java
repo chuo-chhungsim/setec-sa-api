@@ -1,6 +1,7 @@
 package com.example.coursemanagementapi.model.entity;
 
 import com.example.coursemanagementapi.model.dto.AppUserDTO;
+import com.example.coursemanagementapi.model.enums.Role;
 import com.example.coursemanagementapi.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -45,7 +46,7 @@ public class AppUser extends BaseEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id")
     )
     @Column(name = "role")                       // column name inside tbl_user_roles
-    private List<String> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
     @Column(name = "user_status")
     @Enumerated(EnumType.STRING)
@@ -60,7 +61,7 @@ public class AppUser extends BaseEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(SimpleGrantedAuthority::new)
+                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.name()))
                 .toList();
     }
 

@@ -1,5 +1,6 @@
 package com.example.coursemanagementapi.model.request;
 
+import com.example.coursemanagementapi.model.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -28,8 +29,7 @@ public class AppUserRequest {
     private String password;
 
     @NotNull(message = "Role cannot be null")
-    @NotBlank(message = "Role cannot be blank")
-    private String roles;
+    private Role roles;
 
     private Map<String, Object> userInfo;
 }

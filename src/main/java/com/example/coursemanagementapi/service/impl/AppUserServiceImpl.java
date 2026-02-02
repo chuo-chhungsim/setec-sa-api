@@ -62,18 +62,6 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         if (request.getPassword().trim().isEmpty()) {
             throw new BadRequestException("Password can not be empty.");
         }
-        String role = request.getRoles() != null ? request.getRoles().trim() : null;
-        if (role == null || role.isEmpty()) {
-            throw new BadRequestException("Role cannot be null or empty.");
-        }
-
-        // Normalize role to lowercase for validation and storage
-        String normalizedRole = role.toLowerCase();
-        if (!normalizedRole.equals("admin") &&
-                !normalizedRole.equals("teacher") &&
-                !normalizedRole.equals("student")) {
-            throw new BadRequestException("Role must be one of: admin, teacher, student");
-        }
 
         if (appUserRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new BadRequestException("Email " + request.getEmail() + " already exists.");
@@ -92,7 +80,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         newUser.setFullName(request.getFullName());
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
         newUser.setUserStatus(Status.ACTIVE);
-        newUser.setRoles(List.of(normalizedRole));
+        newUser.setRoles(List.of(request.getRoles()));
         newUser.setUserInfo(userInfoJson);
 
         AppUser savedUser = appUserRepository.save(newUser);
