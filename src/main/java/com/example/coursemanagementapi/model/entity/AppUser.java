@@ -30,6 +30,7 @@ public class AppUser extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     @Column(name = "full_name")
@@ -45,7 +46,8 @@ public class AppUser extends BaseEntity implements UserDetails {
             name = "app_user_roles",
             joinColumns = @JoinColumn(name = "user_id")
     )
-    @Column(name = "role")                       // column name inside tbl_user_roles
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private List<Role> roles = new ArrayList<>();
 
     @Column(name = "user_status")
@@ -55,6 +57,10 @@ public class AppUser extends BaseEntity implements UserDetails {
     @Column(name = "user_info",columnDefinition = "jsonb")
     @JdbcTypeCode(SqlTypes.JSON)
     private JsonNode userInfo;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Course> courses;
+
 
 
     @JsonIgnore

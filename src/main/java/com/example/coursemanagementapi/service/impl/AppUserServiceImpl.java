@@ -6,6 +6,7 @@ import com.example.coursemanagementapi.exception.UnauthorizedException;
 import com.example.coursemanagementapi.jwt.JwtService;
 import com.example.coursemanagementapi.model.dto.AppUserDTO;
 import com.example.coursemanagementapi.model.entity.AppUser;
+import com.example.coursemanagementapi.model.enums.Role;
 import com.example.coursemanagementapi.model.enums.Status;
 import com.example.coursemanagementapi.model.request.AppUserRequest;
 import com.example.coursemanagementapi.model.request.AuthRequest;
@@ -73,6 +74,11 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
             Map<String, Object> userInfoMap = new HashMap<>();
             userInfoMap.put("userInfo", request.getUserInfo());
             userInfoJson = objectMapper.convertValue(userInfoMap, JsonNode.class);
+        }
+
+        // Validate role
+        if (request.getRoles() == null) {
+            throw new BadRequestException("Role cannot be null.");
         }
 
         AppUser newUser = new AppUser();

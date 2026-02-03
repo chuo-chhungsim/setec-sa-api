@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -12,4 +14,6 @@ import lombok.RequiredArgsConstructor;
 public class CategoryDTO {
     private Long categoryId;
     private String name;
+
+    private List<CourseDTO> courses;
 }

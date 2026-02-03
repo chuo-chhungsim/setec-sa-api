@@ -36,10 +36,32 @@ public class AppUserRequest {
     public void setFullName(String fullName) {
         this.fullName = fullName == null ? null : fullName.trim();
     }
+    
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
     }
+    
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
+    }
+    
+    // Custom setter to handle case-insensitive enum deserialization
+    public void setRoles(String roleString) {
+        if (roleString == null || roleString.trim().isEmpty()) {
+            this.roles = null;
+            return;
+        }
+        try {
+            // Try to match case-insensitively
+            String upperRole = roleString.trim().toUpperCase();
+            this.roles = Role.valueOf(upperRole);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid role: " + roleString + ". Must be one of: ADMIN, TEACHER, STUDENT");
+        }
+    }
+    
+    // Also allow setting directly as Role enum
+    public void setRoles(Role role) {
+        this.roles = role;
     }
 }

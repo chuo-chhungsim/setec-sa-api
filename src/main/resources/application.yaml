@@ -19,4 +19,5 @@ server:
 
 logging:
   level:
-    root: info
+#    root: info
+    root: error
