@@ -1,22 +1,23 @@
 package com.example.coursemanagementapi.model.dto;
 
-import com.example.coursemanagementapi.model.enums.CourseStatus;
+import com.example.coursemanagementapi.model.entity.Lesson;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CourseDTO {
-    private Long courseId;
-    private String courseName;
-    private String description;
-    private Boolean isActive;
-    private CourseStatus courseStatus;
+public class ProgressDTO {
+    private Long progressId;
     private LessonDTO lesson;
+    private Boolean isCompleted;
+    private Integer lastWatchPosition;
+    private double percent;
+    private AppUserDTO currentUser;
 }

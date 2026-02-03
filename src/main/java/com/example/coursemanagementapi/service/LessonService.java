@@ -7,7 +7,7 @@ import com.example.coursemanagementapi.model.response.PayloadResponse;
 import org.springframework.data.domain.Sort;
 
 public interface LessonService {
-    PayloadResponse<Lesson> getAllLessons(Integer page, Integer size, String sortBy, Sort.Direction direction);
+    PayloadResponse<LessonDTO> getAllLessons(Integer page, Integer size, String sortBy, Sort.Direction direction);
     
     LessonDTO getLessonById(Long lessonId);
     

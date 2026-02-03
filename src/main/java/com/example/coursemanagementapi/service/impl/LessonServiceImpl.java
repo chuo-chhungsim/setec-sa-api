@@ -19,6 +19,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -28,12 +30,16 @@ public class LessonServiceImpl implements LessonService {
     private final CourseRepository courseRepository;
 
     @Override
-    public PayloadResponse<Lesson> getAllLessons(Integer page, Integer size, String sortBy, Sort.Direction direction) {
+    public PayloadResponse<LessonDTO> getAllLessons(Integer page, Integer size, String sortBy, Sort.Direction direction) {
         Page<Lesson> lessonPage = lessonRepository.findAll(
                 PageRequest.of(page - 1, size, Sort.by(direction, sortBy))
         );
-        return PayloadResponse.<Lesson>builder()
-                .items(lessonPage.getContent())
+        List<LessonDTO> lessonDTOS = lessonPage.getContent().stream()
+                .map(Lesson::toLessonDTO)
+                .toList();
+
+        return PayloadResponse.<LessonDTO>builder()
+                .items(lessonDTOS)
                 .pagination(PaginationResponse.fromPage(lessonPage, page, size))
                 .build();
     }

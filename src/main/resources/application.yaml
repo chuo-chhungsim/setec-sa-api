@@ -15,9 +15,15 @@ spring:
     username: postgres
     password: 123
 server:
-  port: 8080
+  port: 9091
 
 logging:
   level:
 #    root: info
     root: error
+
+minio:
+  endpoint: http://localhost:9000
+  access-key: admin
+  secret-key: "@Password123!"
+  bucket: sa-final-bucket

@@ -16,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -23,12 +25,15 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final RoleValidation roleValidation;
     @Override
-    public PayloadResponse<Category> getAllCategories(Integer page, Integer size, String sortBy, Sort.Direction direction) {
+    public PayloadResponse<CategoryDTO> getAllCategories(Integer page, Integer size, String sortBy, Sort.Direction direction) {
         Page<Category> categoryPage = categoryRepository.findAll(
                 PageRequest.of(page - 1, size, Sort.by(direction, sortBy))
         );
-        return PayloadResponse.<Category>builder()
-                .items(categoryPage.getContent())
+        List<CategoryDTO> categoryDTOS = categoryPage.getContent().stream()
+                .map(Category::toCategoryDTO)
+                .toList();
+        return PayloadResponse.<CategoryDTO>builder()
+                .items(categoryDTOS)
                 .pagination(PaginationResponse.fromPage(categoryPage, page, size))
                 .build();
     }

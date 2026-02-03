@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 
 public interface CategoryService {
-    PayloadResponse<Category> getAllCategories(Integer page, Integer size, String sortBy, Sort.Direction direction);
+    PayloadResponse<CategoryDTO> getAllCategories(Integer page, Integer size, String sortBy, Sort.Direction direction);
 
     CategoryDTO createCategory(@Valid CategoryRequest request);
 

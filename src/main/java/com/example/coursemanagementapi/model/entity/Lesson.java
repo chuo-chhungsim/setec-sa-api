@@ -1,11 +1,15 @@
 package com.example.coursemanagementapi.model.entity;
 
 import com.example.coursemanagementapi.model.dto.LessonDTO;
+import com.example.coursemanagementapi.model.dto.ProgressDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "lessons")
@@ -35,6 +39,9 @@ public class Lesson extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", unique = true)
     private Course course;
+
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Progress> progresses = new ArrayList<>();
 
     public LessonDTO toLessonDTO(){
         return LessonDTO.builder()

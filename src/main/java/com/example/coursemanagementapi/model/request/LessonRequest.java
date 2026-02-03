@@ -14,11 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class LessonRequest {
+    private Long courseId;
     @NotBlank(message = "Title cannot be blank")
     private String title;
 
+    @NotBlank(message = "Video URL cannot be blank")
     private String videoUrl;
 
+    @NotBlank(message = "Content text cannot be blank")
     private String contentText;
 
     @NotNull(message = "Duration cannot be null")
@@ -29,5 +32,13 @@ public class LessonRequest {
     @PositiveOrZero(message = "Position must be zero or positive")
     private Integer position;
 
-    private Long courseId;
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl == null ? null : videoUrl.trim();
+    }
+    public void setContentText(String contentText) {
+        this.contentText = contentText == null ? null : contentText.trim();
+    }
 }

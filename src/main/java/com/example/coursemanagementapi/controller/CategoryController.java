@@ -22,14 +22,14 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<PayloadResponse<Category>>> getAllCategories(
+    public ResponseEntity<ApiResponse<PayloadResponse<CategoryDTO>>> getAllCategories(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ) {
-        PayloadResponse<Category> payloadResponse = categoryService.getAllCategories(page, size, sortBy, direction);
-        return ResponseEntity.ok(ApiResponse.<PayloadResponse<Category>>builder()
+        PayloadResponse<CategoryDTO> payloadResponse = categoryService.getAllCategories(page, size, sortBy, direction);
+        return ResponseEntity.ok(ApiResponse.<PayloadResponse<CategoryDTO>>builder()
                 .message("Get all categories successfully")
                 .status(HttpStatus.OK)
                 .payload(payloadResponse)

@@ -22,14 +22,14 @@ public class LessonController {
     private final LessonService lessonService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<PayloadResponse<Lesson>>> getAllLessons(
+    public ResponseEntity<ApiResponse<PayloadResponse<LessonDTO>>> getAllLessons(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ) {
-        PayloadResponse<Lesson> payloadResponse = lessonService.getAllLessons(page, size, sortBy, direction);
-        return ResponseEntity.ok(ApiResponse.<PayloadResponse<Lesson>>builder()
+        PayloadResponse<LessonDTO> payloadResponse = lessonService.getAllLessons(page, size, sortBy, direction);
+        return ResponseEntity.ok(ApiResponse.<PayloadResponse<LessonDTO>>builder()
                 .message("Get all lessons successfully")
                 .status(HttpStatus.OK)
                 .payload(payloadResponse)
