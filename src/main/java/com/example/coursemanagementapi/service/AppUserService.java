@@ -13,4 +13,6 @@ public interface AppUserService {
     AuthResponse login(@Valid AuthRequest request);
 
     AppUserDTO register(@Valid AppUserRequest request);
+    
+    AppUserDTO getUserProfile();
 }

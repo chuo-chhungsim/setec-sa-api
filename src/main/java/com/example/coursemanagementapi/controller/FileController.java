@@ -20,7 +20,7 @@ import java.io.InputStream;
 @RequestMapping("api/v1/files")
 @RequiredArgsConstructor
 @Tag(name = "File Upload", description = "File management for Profile user")
-public class FileController {
+public class FileController extends BaseController {
     private final FileService fileService;
 
     @Operation(
@@ -46,12 +46,7 @@ public class FileController {
     @PostMapping(value = "/upload-file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<FileMetadata>> uploadFile(@RequestParam MultipartFile file) {
         FileMetadata fileMetadata = fileService.uploadFile(file);
-        ApiResponse<FileMetadata> apiResponse = ApiResponse.<FileMetadata>builder()
-                .message("Upload file successfully!")
-                .status(HttpStatus.CREATED)
-                .payload(fileMetadata)
-                .build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
+        return created(fileMetadata, "Upload file successfully!");
     }
 
     @Operation(

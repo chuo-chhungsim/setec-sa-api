@@ -1,6 +1,8 @@
 package com.example.coursemanagementapi.model.request;
 
 import com.example.coursemanagementapi.model.enums.CourseStatus;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CourseRequest {
     private Long categoryId;
     private String courseName;

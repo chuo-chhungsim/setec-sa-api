@@ -3,6 +3,7 @@ package com.example.coursemanagementapi.service.impl;
 
 import com.example.coursemanagementapi.exception.BadRequestException;
 import com.example.coursemanagementapi.exception.UnauthorizedException;
+import com.example.coursemanagementapi.exception.UserNotFoundException;
 import com.example.coursemanagementapi.jwt.JwtService;
 import com.example.coursemanagementapi.model.dto.AppUserDTO;
 import com.example.coursemanagementapi.model.entity.AppUser;
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -105,5 +107,15 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         return AuthResponse.builder()
                 .token(token)
                 .build();
+    }
+
+    @Override
+    public AppUserDTO getUserProfile() {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        
+        AppUser appUser = appUserRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + currentUserEmail));
+        
+        return appUser.toAppUserDTOWithoutTimestamps();
     }
 }

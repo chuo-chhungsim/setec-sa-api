@@ -1,6 +1,8 @@
 package com.example.coursemanagementapi.model.request;
 
 import com.example.coursemanagementapi.model.enums.Role;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -15,6 +17,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AppUserRequest {
     @NotBlank(message = "Full name cannot be blank")
     private String fullName;

@@ -6,11 +6,12 @@ import com.example.coursemanagementapi.model.request.CategoryRequest;
 import com.example.coursemanagementapi.model.response.ApiResponse;
 import com.example.coursemanagementapi.model.response.PayloadResponse;
 import com.example.coursemanagementapi.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +19,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/category")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
-public class CategoryController {
+@Tag(name = "Category Management", description = "Course category management operations")
+public class CategoryController extends BaseController {
     private final CategoryService categoryService;
 
+    @Operation(
+            summary = "Get all categories",
+            description = """
+                    ### Purpose
+                    Retrieve a paginated list of all course categories.
+                    
+                    ### Access
+                    Authenticated users - all roles can access.
+                    
+                    ### Notes
+                    - Returns paginated results with sorting options
+                    - Default pagination: page 1, size 10
+                    - Default sorting: by createdAt in ascending order
+                    - Supports custom sorting by any category field
+                    """
+    )
     @GetMapping
     public ResponseEntity<ApiResponse<PayloadResponse<CategoryDTO>>> getAllCategories(
             @RequestParam(defaultValue = "1") Integer page,
@@ -29,36 +47,71 @@ public class CategoryController {
             @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ) {
         PayloadResponse<CategoryDTO> payloadResponse = categoryService.getAllCategories(page, size, sortBy, direction);
-        return ResponseEntity.ok(ApiResponse.<PayloadResponse<CategoryDTO>>builder()
-                .message("Get all categories successfully")
-                .status(HttpStatus.OK)
-                .payload(payloadResponse)
-                .build());
+        return ok(payloadResponse, "Get all categories successfully");
     }
+    
+    @Operation(
+            summary = "Create a new category",
+            description = """
+                    ### Purpose
+                    Create a new course category in the system.
+                    
+                    ### Access
+                    Authenticated users - all roles can access.
+                    
+                    ### Notes
+                    - Category name must be unique
+                    - Category name cannot be blank
+                    - Returns the created category with generated ID
+                    """
+    )
     @PostMapping
     public ResponseEntity<ApiResponse<CategoryDTO>> createCategory(@RequestBody @Valid CategoryRequest request) {
         CategoryDTO createdCategory = categoryService.createCategory(request);
-        return ResponseEntity.ok(ApiResponse.<CategoryDTO>builder()
-                .message("Create category successfully")
-                .status(HttpStatus.CREATED)
-                .payload(createdCategory)
-                .build());
+        return created(createdCategory, "Create category successfully");
     }
+    
+    @Operation(
+            summary = "Update a category",
+            description = """
+                    ### Purpose
+                    Update an existing category's information.
+                    
+                    ### Access
+                    Authenticated users - Admin role required.
+                    
+                    ### Notes
+                    - Category ID must exist
+                    - Category name must be unique (if changed)
+                    - Only Admin users can update categories
+                    - Returns the updated category information
+                    """
+    )
     @PutMapping("/{category-id}")
     public ResponseEntity<ApiResponse<CategoryDTO>> updateCategory(@PathVariable("category-id") Long categoryId, @RequestBody @Valid CategoryRequest request) {
         CategoryDTO updatedCategory = categoryService.updateCategory(categoryId, request);
-        return ResponseEntity.ok(ApiResponse.<CategoryDTO>builder()
-                .message("Update category successfully")
-                .status(HttpStatus.OK)
-                .payload(updatedCategory)
-                .build());
+        return ok(updatedCategory, "Update category successfully");
     }
+    
+    @Operation(
+            summary = "Delete a category",
+            description = """
+                    ### Purpose
+                    Delete a category from the system.
+                    
+                    ### Access
+                    Authenticated users - Admin role required.
+                    
+                    ### Notes
+                    - Category ID must exist
+                    - Only Admin users can delete categories
+                    - This operation cannot be undone
+                    - Returns success message upon deletion
+                    """
+    )
     @DeleteMapping("/{category-id}")
     public ResponseEntity<ApiResponse<Void>> deleteCategory(@PathVariable("category-id") Long categoryId) {
         categoryService.deleteCategory(categoryId);
-        return ResponseEntity.ok(ApiResponse.<Void>builder()
-                .message("Delete category successfully")
-                .status(HttpStatus.OK)
-                .build());
+        return ok(null, "Delete category successfully");
     }
 }
